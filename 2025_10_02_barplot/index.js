@@ -1,7 +1,16 @@
 import {select, scaleBand, scaleLinear, axisBottom, axisLeft} from "d3";
+
+const left = 50;
+const right = 50;
+const top = 50;
+const bottom = 50;
+
+const width = 600;
+const height = 400;
+
 const svg = select("#app").append("svg");
-svg.attr("width", 400);
-svg.attr("height", 400);
+svg.attr("width", width);
+svg.attr("height", height);
 
 const animes = {
   "Demon Slayer" : 5,
@@ -21,44 +30,23 @@ const series = {
 };
 
 const labels = Object.keys(series);
-const x_axis = scaleBand(labels,[0, 300]);
+const x_axis = scaleBand(labels,[0, width-left-right]);
 console.log(x_axis.step())
 
+console.log("translate(" + String(left) + ", " + String(height-top) +")")  
+const translate = "translate(" + String(left) + ", " + String(height-top) +")"; 
+
 const x_axis_bottom = svg.append("g")
-  .attr("transform","translate(50, 200)")  
+  .attr("transform", translate)  
   .call(axisBottom(x_axis))
 
-  x_axis_bottom.selectAll("text")
-    .attr("transform","rotate(30)")
-    .style("text-anchor","start");
+x_axis_bottom.selectAll("text")
+  .attr("transform","rotate(30)")
+  .style("text-anchor","start");
 
+  /*
 const y_axis = scaleLinear([0, 20], [200, 0]); 
 const y_axis_left = svg.append("g")
   .attr("transform", "translate(50, 0)")
   .call(axisLeft(y_axis));
- console.log("Escala y", y_axis(1)); 
- console.log("Escala y", y_axis(2)); 
- console.log("Escala y", y_axis(3)); 
- console.log("Escala y", y_axis(10)); 
- console.log("Escala y", y_axis(20)); 
-
-labels.forEach((key)=>{
-  console.log(x_axis(key));
-});
-
-for (let key in series) {
-  console.log(key);
-  console.log(series[key]);
-  console.log(x_axis(key),y_axis(series[key]));
-  const x =  x_axis(key) + x_axis.step()
-  const y =  y_axis(series[key])
-  svg.append("circle")
-  .attr("cx",x)
-  .attr("cy",y)
-  .attr("r",2)
-  svg.append("rect")
-  .attr("x",x)
-  .attr("y",y)
-  .attr("width",x_axis.step())
-  .attr("height",200-y)
-}
+*/
