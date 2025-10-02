@@ -1,7 +1,8 @@
 import {select} from "d3";
 const svg = select("#app").append("svg");
-svg.attr("width", 100);
-svg.attr("height", 100);
+svg.attr("width", 400);
+svg.attr("height", 400);
+  svg.attr("fill", "#0000000E")
 
 const drawCircle = (x, y, r, svg) => {
 svg.append("circle")
@@ -11,12 +12,26 @@ svg.append("circle")
     .attr("fill", "red")
     .attr("stroke", "#000000")
 }
-const g1 = svg.append("g");
-g1.attr("transform","translate(50 50) rotate(-40 50 50) scale(2 2)" );
-drawCircle(0, 0, 10, g1);
 
-const g2 = svg.append("g");
-g2.attr("transform", "skewX(40)");
-drawCircle(20, 20, 10, g2);
+const c = svg.append("circle")
+          .attr("cx", 0)
+          .attr("cy", 0)
+          .attr("r", 20)
+          .attr("fill", "#C004F4FF")
+          .attr("stroke", "#0FF025FF")
+  
+svg.on("mousemove",(event)=>{
+  c.attr("cx",event.x);
+  c.attr("cy",event.y);
+});
 
-svg.append("path").attr("d","M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z" )
+/*
+svg.on("click", (event) => {
+  console.log("Ha hecho click",event);
+  drawCircle(event.x,event.y, 20, svg);
+});
+
+svg.on("mousemove", (event) => {
+  drawCircle(event.x,event.y, 10, svg);
+});
+*/
