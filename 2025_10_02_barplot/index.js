@@ -33,20 +33,40 @@ const labels = Object.keys(series);
 const x_axis = scaleBand(labels,[0, width-left-right]);
 console.log(x_axis.step())
 
-console.log("translate(" + String(left) + ", " + String(height-top) +")")  
-const translate = "translate(" + String(left) + ", " + String(height-top) +")"; 
+function strTranslate(x,y) {
+  return "translate(" + String(x) + ", " + String(y) +")"; 
+}
 
 const x_axis_bottom = svg.append("g")
-  .attr("transform", translate)  
+  .attr("transform", strTranslate(left, height-top))  
   .call(axisBottom(x_axis))
 
 x_axis_bottom.selectAll("text")
   .attr("transform","rotate(30)")
   .style("text-anchor","start");
 
-  /*
-const y_axis = scaleLinear([0, 20], [200, 0]); 
+const y_axis = scaleLinear([0, 20], [height-top-bottom, 0]); 
 const y_axis_left = svg.append("g")
-  .attr("transform", "translate(50, 0)")
+  .attr("transform", strTranslate(left,top))
   .call(axisLeft(y_axis));
-*/
+
+const bars = svg.append("g")
+                .attr("transform",strTranslate(left,top))
+
+for (let key in series) {
+  console.log(x_axis(key),y_axis(series[key]));
+  const x =  x_axis(key)+ x_axis.step()/4
+  const y =  y_axis(series[key])
+  bars.append("circle")
+  .attr("cx",x)
+  .attr("cy",y)
+  .attr("r",2)
+  bars.append("rect")
+  .attr("x",x)
+  .attr("y",y)
+  .attr("width",x_axis.step()/2)
+  .attr("height",height-top-bottom-y)
+  .attr("fill","pink")
+}
+
+
